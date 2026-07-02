@@ -1,0 +1,57 @@
+graph TD
+    %% Styling definitions
+    classDef ciso fill:#f3e5f5,stroke:#8e24aa,stroke-width:2px,color:#4a148c
+    classDef owner fill:#fff3e0,stroke:#e65100,stroke-width:2px,color:#e65100
+    classDef vat fill:#ffebee,stroke:#c62828,stroke-width:2px,color:#b71c1c
+    classDef process fill:#e3f2fd,stroke:#1565c0,stroke-width:2px,color:#0d47a1
+    classDef decision fill:#e0f7fa,stroke:#00838f,stroke-width:2px,color:#006064
+    classDef outcome fill:#e8f5e9,stroke:#2e7d32,stroke-width:2px,color:#1b5e20
+    classDef endnode fill:#eceff1,stroke:#546e7a,stroke-width:2px,color:#263238
+
+    %% Roles Subgraph
+    subgraph Roles [👥 Roles & Responsibilities]
+        direction TB
+        CISO[CISO / CCRM CDO Team<br/>Maintains Records & Reports]:::ciso
+        OWNER[Information Owners<br/>Request Baseline Reviews]:::owner
+        VAT_TEAM[VAT, Blue & Red Teams<br/>Execute VAA Phases]:::vat
+    end
+
+    %% Workflow Subgraph
+    subgraph Workflow [⚙️ Detailed Process Workflow]
+        direction TB
+        S1[Step 1: Retain Incident Documentation<br/>Logs, Notes, Statements]:::process
+        S2[Step 2: Submit Updated Reports<br/>Within 8 Hours of New Data]:::process
+        S3[Step 3: Submit Final Report<br/>Within 24 Hours of Resolution]:::process
+        S4{Step 4: Initiate VAA?<br/>Vulnerability Assessment Activity}:::decision
+        
+        S4_1[Phase I: VAT Audit<br/>Identify Deficiencies]:::process
+        S4_2[Phase II: Blue Team<br/>Guidance & Hardening]:::process
+        S4_3[Phase III: Red Team<br/>Adversary Emulation & Attack]:::process
+        
+        S1 --> S2 --> S3 --> S4
+        S4 -- Yes --> S4_1 --> S4_2 --> S4_3
+        S4 -- No --> END_WF((End of Workflow)):::endnode
+    end
+
+    %% Outcomes Subgraph
+    subgraph Outcomes [🎯 Outcomes & Deliverables]
+        direction TB
+        O1[Complete Incident Record securely stored]:::outcome
+        O2[Lessons Learned integrated into playbooks]:::outcome
+        O3[Systemic Vulnerabilities discovered & remediated]:::outcome
+    end
+
+    %% Relationships: Roles to Workflow
+    CISO -.->|Executes| S1
+    CISO -.->|Submits| S2
+    CISO -.->|Submits| S3
+    OWNER -.->|Requests| S4
+    VAT_TEAM -.->|Conducts| S4_1
+    VAT_TEAM -.->|Conducts| S4_2
+    VAT_TEAM -.->|Conducts| S4_3
+
+    %% Relationships: Workflow to Outcomes
+    S3 ==>|Produces| O1
+    S3 ==>|Informs| O2
+    S4_3 ==>|Achieves| O3
+    S4_3 ==>|Informs| O2
