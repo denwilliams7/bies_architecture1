@@ -1,0 +1,20 @@
+graph TD
+    subgraph "DCSA BIES Enterprise"
+        A[Users]
+        C(Other BIES HVA Systems)
+        
+        subgraph "Security Boundary"
+            B(HVA System)
+        end
+    end
+
+    D[External Agencies/Systems]
+
+    A -- "Authenticated Access" --> B
+    B -- "Internal Data Exchange" --> C
+    C -- "Internal Data Exchange" --> B
+    B -- "Secure External Connection" --> D
+    D -- "Secure External Connection" --> B
+
+    style B fill:#dae8fc,stroke:#6c8ebf,stroke-width:2px
+    style "Security Boundary" fill:none,stroke:#c00,stroke-width:2px,stroke-dasharray: 5 5
