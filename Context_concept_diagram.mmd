@@ -1,0 +1,16 @@
+graph TD
+    subgraph "DCSA BIES Enterprise"
+        A[Users]
+        B(HVA System)
+        C(Other BIES HVA Systems)
+    end
+
+    D[External Agencies/Systems]
+
+    A -- "PIV/CAC Authenticated Access" --> B
+    B -- "Data Exchange/API Calls" --> C
+    C -- "Data Exchange/API Calls" --> B
+    B -- "Secure Data Connections (e.g., FTP, Web Services)" --> D
+    D -- "Secure Data Connections (e.g., FTP, Web Services)" --> B
+
+    style B fill:#dae8fc,stroke:#6c8ebf,stroke-width:2px
