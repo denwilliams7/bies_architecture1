@@ -1,0 +1,55 @@
+graph TD
+    subgraph DCSA_BIES_Enterprise [DCSA BIES Enterprise]
+        direction LR
+        
+        subgraph Other_BIES_Systems [Other BIES HVA Systems]
+            PIPS
+            OPIS
+            NP2
+            ARC_Nlets[ARC-Nlets]
+        end
+        
+        subgraph Security_Boundary [Security Boundary]
+            NFW[NFW System]
+        end
+
+        subgraph Users
+             Admin[System Administrators]
+        end
+    end
+
+    subgraph External_Systems [External Agencies/Systems]
+        direction LR
+        SESE[SESE]
+        BVS[BVS]
+        SSA[SSA]
+        FBI[FBI Systems]
+        DCII[DCII]
+        MILD[MILD]
+        CRED[Credit Bureaus]
+        INTERPOL[INTERPOL]
+    end
+
+    %% Connections
+    Admin -- "Manual Monitoring via Admin Utility" --> NFW
+    
+    NFW -- "CONNX/JDBC" --> PIPS
+    PIPS -- "CONNX/JDBC" --> NFW
+    
+    NFW -- "Data Upload" --> OPIS
+    NFW -- "ActiveMQ (AMQ)" --> NP2
+    NFW -- "Secure Web Services" --> ARC_Nlets
+    
+    NFW -- "Connect:Direct, FTP, Web Services" --> SESE
+    NFW -- "Connect:Direct, FTP, Web Services" --> BVS
+    NFW -- "Connect:Direct, FTP, Web Services" --> SSA
+    NFW -- "Connect:Direct, FTP, Web Services" --> FBI
+    NFW -- "Connect:Direct, FTP, Web Services" --> DCII
+    NFW -- "Connect:Direct, FTP, Web Services" --> MILD
+    NFW -- "Connect:Direct, FTP, Web Services" --> CRED
+    NFW -- "Connect:Direct, FTP, Web Services" --> INTERPOL
+
+    %% Styling
+    style NFW fill:#dae8fc,stroke:#6c8ebf,stroke-width:2px
+    classDef securityBoundary fill:none,stroke:#c00,stroke-width:2px,stroke-dasharray:5
+    class Security_Boundary securityBoundary
