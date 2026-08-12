@@ -1,0 +1,46 @@
+graph TD
+    subgraph DCSA_BIES_Enterprise [DCSA BIES Enterprise]
+        direction LR
+        
+        subgraph Other_BIES_Systems [Other BIES HVA Systems]
+            PIPS
+            OPIS
+            NP2
+            ARC_Nlets[ARC-Nlets]
+        end
+        
+        subgraph Security_Boundary [Security Boundary]
+            NFW[NFW System]
+        end
+
+        subgraph Users
+             Admin[System Administrators]
+        end
+    end
+
+    subgraph External_Systems [External Agencies/Systems]
+        direction LR
+        BVS[BVS]
+        MILD[MILD]
+        FBI[FBI NLETS]
+        Other_Ext[Other External Agencies <br> SESE, SSA, DCII, CRED, <br> INTERPOL, etc.]
+    end
+
+    %% Connections
+    Admin -- "Manual Monitoring" --> NFW
+    
+    NFW -- "CONNX/JDBC" --> PIPS
+    NFW -- "Data Upload" --> OPIS
+    NFW -- "ActiveMQ (AMQ)" --> NP2
+    NFW -- "TCP/1364 (HTTPS)" --> ARC_Nlets
+    
+    NFW -- "TCP/443 (HTTPS)" --> BVS
+    NFW -- "TCP/446 (HTTPS)" --> MILD
+    NFW -- "TCP/8443 (HTTPS)" --> FBI
+    NFW -- "Connect:Direct, FTP, Web Services" --> Other_Ext
+
+    %% Styling
+    style NFW fill:#dae8fc,stroke:#6c8ebf,stroke-width:2px
+    classDef securityBoundary fill:none,stroke:#c00,stroke-width:2px,stroke-dasharray:5
+    class Security_Boundary securityBoundary
+
