@@ -1,0 +1,44 @@
+graph TD
+    subgraph DCSA_BIES_Enterprise [DCSA BIES Enterprise]
+        direction LR
+        
+        subgraph Other_BIES_Systems [Other BIES HVA Systems]
+            PIPS[PIPS Mainframe]
+            OPIS[OPIS Mainframe]
+            ARC_Nlets[ARC-Nlets]
+        end
+        
+        subgraph Security_Boundary [Security Boundary]
+            NFW[NFW System]
+        end
+
+        subgraph Users
+             Admin[System Administrators]
+        end
+    end
+
+    subgraph External_Systems [External Agencies/Systems]
+        direction LR
+        BVS[BVS (naphsis.us)]
+        MILD[MILD (dmdc.osd.mil)]
+        FBI_NLETS[FBI NLETS (namecheck-ws.fbi.gov)]
+    end
+
+    %% Connections
+    Admin -- "Manual Monitoring" --> NFW
+    
+    %% Internal Connections based on Table 8
+    NFW -- "FTP+ / TCP 61616" --> OPIS
+    NFW -- "CONNX/JDBC / TCP 7502" --> PIPS
+    NFW -- "HTTPS / TCP 1364" --> ARC_Nlets
+    
+    %% External Connections based on Table 8
+    NFW -- "HTTPS / TCP 443" --> BVS
+    NFW -- "HTTPS / TCP 446" --> MILD
+    NFW -- "HTTPS / TCP 8443" --> FBI_NLETS
+
+    %% Styling
+    style NFW fill:#dae8fc,stroke:#6c8ebf,stroke-width:2px
+    classDef securityBoundary fill:none,stroke:#c00,stroke-width:2px,stroke-dasharray:5
+    class Security_Boundary securityBoundary
+
