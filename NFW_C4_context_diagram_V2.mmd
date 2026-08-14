@@ -1,0 +1,29 @@
+C4Context
+    title System Context Diagram for Non-Field Work (NFW) with Security Boundary
+
+    Person(admin, "System Administrator", "Performs manual monitoring and management of the NFW system.")
+
+    Enterprise_Boundary(dcsa, "DCSA BIES Enterprise Boundary") {
+        
+        Boundary(security_boundary, "NFW Security Boundary", "IL5 Secured Zone") {
+            System(nfw, "NFW System", "Broker system that automates National Agency Checks (NACs) by exchanging data with internal and external partners.")
+        }
+        
+        System(pips, "PIPS Mainframe", "Core personnel investigations processing system.")
+        System(opis, "OPIS Mainframe", "Imaging and document management system.")
+        System(arcnlets, "ARC-Nlets", "Automated Record Checks system.")
+    }
+
+    System_Ext(bvs, "BVS", "evve.naphsis.us - Vital records and birth verification.")
+    System_Ext(mild, "MILD", "sadr.dmdc.osd.mil - Military records.")
+    System_Ext(fbi, "FBI NLETS", "namecheck-ws.fbi.gov - FBI name checks.")
+
+    Rel(admin, nfw, "Monitors", "Manual Monitoring")
+    
+    Rel(nfw, opis, "Exchanges data", "FTP+ / TCP 61616")
+    Rel(nfw, pips, "Exchanges data", "CONNX/JDBC / TCP 7502")
+    Rel(nfw, arcnlets, "Exchanges data", "HTTPS / TCP 1364")
+    
+    Rel(nfw, bvs, "Exchanges data", "HTTPS / TCP 443")
+    Rel(nfw, mild, "Exchanges data", "HTTPS / TCP 446")
+    Rel(nfw, fbi, "Exchanges data", "HTTPS / TCP 8443")
