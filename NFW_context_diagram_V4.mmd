@@ -17,7 +17,9 @@ graph TD
         end
     end
 
-    NFW --> BVS
+    NFW -- |HTTPS / TCP 443| --> BVS
+    NFW -- "HTTPS / TCP 446" --> MILD
+    NFW -- "HTTPS / TCP 8443" --> FBI_NLETS
 
     subgraph External_Systems [External Agencies/Systems]
         direction LR
@@ -35,9 +37,9 @@ graph TD
     NFW -- "HTTPS / TCP 1364" --> ARC_Nlets
     
     %% External Connections based on Table 8
-    NFW -- |HTTPS / TCP 443| --> BVS
-    NFW -- "HTTPS / TCP 446" --> MILD
-    NFW -- "HTTPS / TCP 8443" --> FBI_NLETS
+    %% NFW -- |HTTPS / TCP 443| --> BVS
+    %% NFW -- "HTTPS / TCP 446" --> MILD
+    %% NFW -- "HTTPS / TCP 8443" --> FBI_NLETS
 
     %% Styling
     style NFW fill:#dae8fc,stroke:#6c8ebf,stroke-width:2px
